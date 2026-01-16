@@ -3,6 +3,7 @@ run/**
 !run/**/
 !run/**/*.bat
 !run/**/*.yaml
+!run/**/*.keyx
 
 
 #ignore virtual environment folder
@@ -12,5 +13,3 @@ run/**
 __pycache__/
 *.pyc
 
-# ignore sensitive key files
-*.keyx
