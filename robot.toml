@@ -1,0 +1,16 @@
+[tool.robocop]
+exclude = ["automationTesting-*"]
+verbose = true
+target-version = 7
+language = ["fr", "en"]
+
+[tool.robocop.format]
+line_length = 120
+space-count = 2
+skip = ["documentation"]
+
+[tool.robotcode-analyze.modifiers]
+hint = ["keyword-not-found"]
+
+[tool.robotcode-analyze]
+first_word_capitalized = true

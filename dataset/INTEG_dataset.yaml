@@ -1,0 +1,22 @@
+# Les comptes utilisateurs pour les tests d'automatisation sur Démarches Simplifiées
+utilisateurs:
+  - nom: user1
+    email:  user1@develop.sample.fr
+    prenom: Camille
+    profile: usager
+  - nom: user8
+    email:  user8@develop.sample.fr
+    prenom: Camille
+    profile: usager
+  - nom: mdc_Henri
+    email:  user6@develop.sample.fr
+    prenom: Camille
+    profile: instructeur
+
+DEMARCHES:
+  - numero: 1919
+    nom:  2136 2nivS Pour Tests Robots  # option Gérer les expert activée
+    dossiers: ['0_2206', '0_2224', '0_2217']
+    dossiers_instructeur: 
+      - numero: '0_2210'
+      - numero: '0_2211'

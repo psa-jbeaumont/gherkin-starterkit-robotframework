@@ -1,0 +1,11 @@
+SETTINGS:
+  chrome_binary_path: C:/robot/app/GoogleChromePortable/App/Chrome-bin/chrome.exe
+  selenium_global_timeout: 30 seconds
+  vault_keepass_database: dataset/secrets.kdbx
+  vault_keepass_keyfile: oWUrq3ZiO3Wj.keyx
+  environment_default: INTEG
+  canal_default: intradef
+
+INTEG:
+  internet: https://develop.internet.sample.fr
+  intradef: https://develop.intradef.sample.fr

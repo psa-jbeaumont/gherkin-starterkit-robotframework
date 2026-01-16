@@ -1,0 +1,11 @@
+pyyaml==6.0.3
+robotframework==7.4.1
+robotframework-pythonlibcore==4.4.1
+robotframework-requests==1.0a14
+robotframework-seleniumlibrary==6.8.0
+robotframework-robocop==7.2.0
+rpaframework==31.1.0
+rpaframework-recognition==7.0.1
+robotframework-keepasslibrary==0.10.0
+--find-links ./dist
+robotframework-gherkin-parser==0.3.2+fix_hooks_e0cf073

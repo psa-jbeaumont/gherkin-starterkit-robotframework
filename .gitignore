@@ -1,0 +1,16 @@
+# ignore run folder artifacts
+run/**
+!run/**/
+!run/**/*.bat
+!run/**/*.yaml
+
+
+#ignore virtual environment folder
+.venv
+
+# ignore Python cache files
+__pycache__/
+*.pyc
+
+# ignore sensitive key files
+*.keyx
