@@ -1,4 +1,4 @@
-@echo off
+REM @echo off
 REM Vérifier si un argument a été passé
 if "%1"=="" (
     echo Usage: start.bat ^<TAG^> [--dry-run] [--headless] [--history]
@@ -11,12 +11,11 @@ if "%1"=="" (
     exit /b 1
 )
 
-cd %cd%
 REM Définit le répertoire de travail (compatible Jenkins)
-set WORKSPACE=%cd%/run/workspace
+set WORKSPACE=/deploy/run/workspace
 
 REM Récupère le chemin de base
-set "PATH2RESOURCE=%cd%/resources/socle"
+set "PATH2RESOURCE=/deploy/resources/socle"
 
 REM Valeurs par défaut des options
 set DRY_RUN=false
@@ -56,7 +55,7 @@ set ROBOT_OPTS=--parser GherkinParser ^
   --include %TAG% ^
   --language fr ^
   --loglevel TRACE ^
-  --variablefile %WORKSPACE%\settings.yaml ^
+  --variablefile %WORKSPACE%/settings.yaml ^
   --variable HEADLESS_MODE:%HEADLESS_MODE% ^
   --variable HISTORY_MODE:%HISTORY_MODE% ^
   --pythonpath %PATH2RESOURCE%
@@ -66,7 +65,15 @@ if "%HISTORY_MODE%"=="true" (
     set "ROBOT_OPTS=%ROBOT_OPTS% --timestampoutputs"
 )
 
-python ^
-  -m robot ^
+REM Exécuter la commande robot avec Podman
+cd ..
+podman run  ^
+  --rm  ^
+  -v %cd%/gherkin-starterkit-robotframework:/deploy ^
+  --network=host ^
+  --env WORKSPACE=%WORKSPACE% ^
+  localhost/robot-grid-slim ^
   %ROBOT_OPTS% ^
-  %cd%\features
+  features
+
+cd gherkin-starterkit-robotframework

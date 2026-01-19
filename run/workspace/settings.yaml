@@ -7,5 +7,5 @@ SETTINGS:
   canal_default: intradef
 
 INTEG:
-  internet: https://develop.internet.sample.fr
-  intradef: https://develop.intradef.sample.fr
+  internet: https://demo-web.shop/
+  intradef: https://demo-web.shop/

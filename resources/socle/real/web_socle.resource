@@ -9,7 +9,7 @@ Library     DateTime
 Library     String
 Library     SeleniumLibrary
 ...             screenshot_root_directory=EMBED
-Library     RPA.Desktop
+
 Resource    settings_socle.resource
 
 
@@ -22,6 +22,7 @@ Ouvrir Navigateur Sur
 
   SeleniumLibrary.Open Browser
   ...  url=${url}
+  ...  remote_url=http://127.0.0.1:4444/wd/hub
   ...  browser=chrome
   ...  options=${options}
   SeleniumLibrary.Maximize Browser Window
@@ -36,7 +37,7 @@ Definir Options Pour Chrome
   #   on utilise un template string pour passer les options
   #   par exemple {prefs} sera remplacé par le dictionnaire des préférences
   ${arguments_template}=  Catenate  SEPARATOR=;
-  ...  binary_location="{chrome_binary_path}"
+  # ...  binary_location="{chrome_binary_path}"
   ...  add_argument("--no-sandbox")
   ...  add_argument("--disable-infobars")
   ...  add_argument("--disable-extensions")
@@ -58,7 +59,7 @@ Definir Options Pour Chrome
   ${headless_mode}=  Set Variable If    ${headless_bool}
   ...        add_argument("--headless=new")
   ...        ${EMPTY}
-  
+
   VAR  &{prefs}=
   # To turns off download prompt
   ...  download.prompt_for_download=${False}
@@ -152,7 +153,7 @@ Le Texte De L'Element "${locator}" Doit Etre "${expected}"
   [Documentation]    [MOCK] Vérifier que le texte de l'élément correspond à la valeur attendue
 
   ${text}=  web_socle.Obtenir Le Texte De L'Element  ${locator}
-  Should Be Equal As Strings  ${text}  Démarches
+  Should Be Equal As Strings  ${text}  ${expected}
 
 Appuyer Sur La Touche
   [Documentation]    Appuyer sur une touche du clavier
@@ -162,7 +163,8 @@ Appuyer Sur La Touche
   Sleep  1s
   # Debug purpose
   # RPA.Desktop.Take Screenshot  embed=True
-  RPA.Desktop.Press Keys  ${touche}
+  # TODO RPA.Desktop.Press Keys  ${touche} non disponible sur grille selenium
+  No Operation
 
 Effectuer Une Capture D'Ecran
   [Documentation]    Effectuer une capture d'écran de l'élément ciblé (par défaut le body)
