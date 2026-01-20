@@ -2,6 +2,7 @@
 Documentation    Hooks before and after suite and test execution
 
 Resource    ../../resources/socle/vault_socle.resource
+Resource    web_socle.resource
 
 
 *** Keywords ***
@@ -27,3 +28,4 @@ after_suite
   [Tags]  hook:after-suite
   [Arguments]  ${context}=  ${test}=
   Log  after suite
+  web_socle.Fermer Tous Les Navigateurs

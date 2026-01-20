@@ -33,15 +33,23 @@ EMOJI = {
     "socle":   "⚙️",
 }
 
+INDENT = {
+    "test":    "",
+    "step":    "  ",
+    "service": "    ",
+    "page":    "      ",
+    "socle":   "        ",
+}
+
 # Mapping (niveau + couleur) par catégorie
 LEVELS = {
-    "step":    ("INFO",   ANSI["blue"]),
-    "success": ("INFO",   ANSI["green"]),
+    "step":    ("INFO ",   ANSI["blue"]),
+    "success": ("INFO ",   ANSI["green"]),
     "error":   ("ERROR",  ANSI["red"]),
-    "service": ("INFO",   ANSI["magenta"]),
-    "page":    ("INFO",   ANSI["yellow"]),
+    "service": ("INFO ",   ANSI["magenta"]),
+    "page":    ("INFO ",   ANSI["yellow"]),
     "socle":   ("DEBUG",  ANSI["grey"]),
-    "test":    ("INFO",   ""),            # couleur neutre (peut être bleue si souhaité)
+    "test":    ("INFO ",   ""),            # couleur neutre (peut être bleue si souhaité)
 }
 
 class StepsLogger:
@@ -106,10 +114,12 @@ class StepsLogger:
         ts = self._timestamp_iso_z()
         emoji_sym = emoji_override if emoji_override is not None else EMOJI.get(category, "")
         label = label_override if label_override else category.upper()
+        indent = INDENT.get(label.lower(), "")
+        logger.debug(f"label='{label}',category='{category}', indent='{indent}'; emoji='{emoji_sym}")
 
         # Message avec emojis (pour HTML et logs)
         msg_with_emoji = str(msg).encode('utf-8', errors='replace').decode('utf-8')
-        file_line = f"{ts} [{level}] " \
+        file_line = f"{ts} [{level}] {indent}" \
                     f"{(emoji_sym + ' ') if (self.emoji and emoji_sym) else ''}" \
                     f"{label}: {msg_with_emoji}"
         
@@ -163,7 +173,7 @@ class StepsLogger:
         self._emit("test", message, level, color, EMOJI["test"], label_override="TEST")
 
     def step(self, message: str):
-        """➡️ STEP: … (INFO, bleu)."""
+        """  ➡️ STEP: … (INFO, bleu)."""
         level, color = LEVELS["step"]
         self._emit("step", message, level, color, EMOJI["step"], label_override="STEP")
 
@@ -178,11 +188,11 @@ class StepsLogger:
         self._emit("error", message, level, color, EMOJI["error"], label_override=category.upper())
 
     def service(self, message: str):
-        """🛠️ SERVICE: {message} (INFO, magenta)."""
+        """    🛠️ SERVICE: {message} (INFO, magenta)."""
         level, color = LEVELS["service"]
         self._emit("service", message, level, color, EMOJI["service"], label_override="SERVICE")
     def page(self, message: str):
-        """📄 PAGE: … (INFO, magenta)."""
+        """      📄 PAGE: … (INFO, magenta)."""
         level, color = LEVELS["page"]
         self._emit("page", message, level, color, EMOJI["page"], label_override="PAGE")
 
