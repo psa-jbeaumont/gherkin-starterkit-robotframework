@@ -7,5 +7,5 @@ SETTINGS:
   canal_default: intradef
 
 INTEG:
-  internet: https://demo-web.shop/
-  intradef: https://demo-web.shop/
+  internet: https://demo.applitools.com/
+  intradef: https://demo.applitools.com/

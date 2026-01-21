@@ -115,7 +115,7 @@ class StepsLogger:
         emoji_sym = emoji_override if emoji_override is not None else EMOJI.get(category, "")
         label = label_override if label_override else category.upper()
         indent = INDENT.get(label.lower(), "")
-        logger.debug(f"label='{label}',category='{category}', indent='{indent}'; emoji='{emoji_sym}")
+        # logger.debug(f"label='{label}',category='{category}', indent='{indent}'; emoji='{emoji_sym}")
 
         # Message avec emojis (pour HTML et logs)
         msg_with_emoji = str(msg).encode('utf-8', errors='replace').decode('utf-8')

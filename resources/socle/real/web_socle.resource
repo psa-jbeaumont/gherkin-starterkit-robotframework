@@ -22,7 +22,7 @@ Ouvrir Navigateur Sur
 
   SeleniumLibrary.Open Browser
   ...  url=${url}
-  ...  remote_url=http://127.0.0.1:4444/wd/hub
+  # ...  remote_url=http://127.0.0.1:4444/wd/hub
   ...  browser=chrome
   ...  options=${options}
   SeleniumLibrary.Maximize Browser Window
@@ -75,7 +75,6 @@ Definir Options Pour Chrome
   ...  chrome_binary_path=${SETTINGS}[chrome_binary_path]
   ...  headless_mode=${headless_mode}
 
-  Log To Console  Chrome Options: ${chrome_options}
   RETURN  ${chrome_options}
 
 Obtenir Le Texte De L'Element
