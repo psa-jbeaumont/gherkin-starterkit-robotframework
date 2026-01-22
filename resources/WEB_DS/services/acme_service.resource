@@ -47,7 +47,12 @@ Obtenir L'Utilisateur Connecté
   ${logged_user_name}=  dashboard_page.Obtenir Le Nom De L'Utilisateur Connecté
   ${logged_user_role}=  dashboard_page.Obtenir Le Rôle De L'Utilisateur Connecté
   ${role}=  String.Convert To Lower Case  ${logged_user_role}
-  ${firstname}  ${lastname}=  String.Split String  ${logged_user_name}  ${SPACE}  1
+  TRY
+    ${firstname}  ${lastname}=  String.Split String  ${logged_user_name}  ${SPACE}  1
+  EXCEPT
+    VAR  ${firstname}=  ${logged_user_name}
+    VAR  ${lastname}=  ${EMPTY}
+  END
 
   VAR  &{logged_user}=
   ...  role=${role}

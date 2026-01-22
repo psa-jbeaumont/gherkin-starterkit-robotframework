@@ -6,4 +6,4 @@ robotframework-seleniumlibrary==6.8.0
 robotframework-robocop==7.2.0
 robotframework-keepasslibrary==0.10.0
 --find-links ./dist
-robotframework-gherkin-parser==0.3.2+fix_hooks_e0cf073
+robotframework-gherkin-parser==0.3.3
