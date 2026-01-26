@@ -1,18 +1,18 @@
 # Les comptes utilisateurs pour les tests d'automatisation sur Démarches Simplifiées
 utilisateurs:
-  - nom: user1
+  - nom: Gomez
     role: customer
     email:  user1@develop.sample.fr
     prenom: Jack
-    nom: Gomez
     profile: invité
   - nom: user8
     email:  user8@develop.sample.fr
     prenom: Camille
     profile: usager
-  - nom: mdc_Henri
+  - nom: Gomez
     email:  user6@develop.sample.fr
-    prenom: Camille
+    prenom: Jack
+    role: customer
     profile: instructeur
 
 DEMARCHES:

@@ -1,15 +1,16 @@
 @echo off
 REM Vérifier si un argument a été passé
 if "%1"=="" (
-    echo Usage: start.bat ^<TAG^> [--dry-run] [--headless] [--history]
+    echo Usage: start.bat ^<TAG^> [--web ^<selenium^|playwright^|dry-run^>] [--headless] [--history]
     echo.
     echo Examples:
     echo   start.bat TNR
-    echo   start.bat smoke --dry-run
-    echo   start.bat regression --headless --history
+    echo   start.bat smoke --web selenium
+    echo   start.bat regression --web playwright --headless --history
     echo.
     exit /b 1
 )
+
 
 cd %cd%
 REM Définit le répertoire de travail (compatible Jenkins)
@@ -19,7 +20,7 @@ REM Récupère le chemin de base
 set "PATH2RESOURCE=%cd%/resources/socle"
 
 REM Valeurs par défaut des options
-set DRY_RUN=false
+set WEB_DRIVER=dry-run
 set HEADLESS_MODE=false
 set HISTORY_MODE=false
 
@@ -30,8 +31,9 @@ shift
 :parse_args
 if "%~1"=="" goto args_done
 
-if "%~1"=="--dry-run" (
-    set DRY_RUN=true
+if /i "%~1"=="--web" (
+    set "WEB_DRIVER=%~2"
+    shift
 ) else if "%~1"=="--headless" (
     set HEADLESS_MODE=true
 ) else if "%~1"=="--history" (
@@ -43,12 +45,8 @@ goto parse_args
 
 :args_done
 
-REM Choix du répertoire selon DRY_RUN
-if "%DRY_RUN%"=="true" (
-    set "PATH2RESOURCE=%PATH2RESOURCE%;%PATH2RESOURCE%/dry-run"
-) else (
-    set "PATH2RESOURCE=%PATH2RESOURCE%;%PATH2RESOURCE%/real"
-)
+REM Choix du répertoire selon WEB_DRIVER
+set "PATH2RESOURCE=%PATH2RESOURCE%;%PATH2RESOURCE%/%WEB_DRIVER%"
 
 REM Construire la commande robot
 set ROBOT_OPTS=--parser GherkinParser ^

@@ -20,4 +20,4 @@ Fonctionnalité:  ACME - s'authentifier
     Exemples:
         | profil         |
         | invité         |
-        | administrateur |
+        | instructeur |
