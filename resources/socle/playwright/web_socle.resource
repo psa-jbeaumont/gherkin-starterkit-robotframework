@@ -5,6 +5,7 @@ Documentation       Resource wrapper de la librairie 'Browser'
 ...                 Ajoute la robustesse et permet la protection vis à vis des changements de Browser
 ...                 Permet la gestion des options de Chrome pour le téléchargement de fichiers
 
+Library     Collections
 Library     DateTime
 Library     String
 Library     Browser
@@ -12,22 +13,35 @@ Library     Browser
 Resource    settings_socle.resource
 
 
+*** Variables ***
+&{BROWSER}
+...   chrome=chromium
+...   firefox=firefox
+...   edge=chromium
+...   safari=webkit
+
+
 *** Keywords ***
 Ouvrir Navigateur Sur
   [Documentation]    Ouvrir le navigateur sur l'URL ciblé
   [Arguments]  ${url}
 
-  ${options}=  Definir Options Pour Chrome
-
   # Gérer le mode headless
   #  HEADLESS est une variable d'exécution optionnelle du starter robot
   #  si non fournie, le mode headless est désactivé
   ${headless_bool}=  Convert To Boolean  %{HEADLESS_MODE=${False}}
+
+  # Récupérer le navigateur par défaut depuis les settings
+  #  si non défini, utiliser chrome
+  #  associer le nom du navigateur à celui attendu par la librairie Browser
+  ${browser}=  Collections.Get From Dictionary  ${BROWSER}  ${SETTINGS}[browser_default]  default=chrome
+  ${options}=  Run Keyword  Definir Options Pour ${browser}
+
   Browser.New Browser
-  ...    browser=chromium
+  ...    browser=${browser}
   ...    headless=${headless_bool}
   ...    args=${options}
-  ...    executablePath=${SETTINGS}[chrome_binary_path]
+  ...    downloadsPath=${OUTPUT_DIR}/downloads
 
   Browser.New Context
   ...    viewport={'width': 1920, 'height': 1080}
@@ -37,14 +51,13 @@ Ouvrir Navigateur Sur
   Browser.Set Browser Timeout    ${SETTINGS}[selenium_global_timeout]    scope=Test
   Browser.New Page    ${url}
 
-Definir Options Pour Chrome
+Definir Options Pour Chromium
   [Documentation]        pour robot avec téléchargement de fichiers
-  [Arguments]  ${dir_load}=${OUTPUTDIR}
 
   # Préparation des options de Chrome
   #   on utilise un template string pour passer les options
   #   par exemple {prefs} sera remplacé par le dictionnaire des préférences
-  ${arguments_template}=  Create List
+  VAR  @{chrome_options}=
   ...  --no-sandbox
   ...  --disable-infobars
   ...  --disable-extensions
@@ -55,23 +68,40 @@ Definir Options Pour Chrome
   ...  --window-size=1920,1080
   ...  --disable-logging
   ...  --log-level=3
-  #...  al_option("prefs", {prefs})
-  ...  --lang={locale}
-
-  VAR  &{prefs}=
-  # To turns off download prompt
-  ...  download.prompt_for_download=${False}
-  # Set download Directory
-  ...  download.default_directory=${dir_load}
-  # Avoid pdf viewer (désactivation de la visionneuse chrome)
-  ...  plugins.always_open_pdf_externally=${True}
-
-  ${chrome_options}=  String.Format String
-  ...  ${arguments_template}
-  ...  locale=fr-FR
-  ...  prefs=${prefs}
+  ...  --lang=fr-FR
 
   RETURN  ${chrome_options}
+
+Definir Options Pour edge
+  [Documentation]        pour robot avec téléchargement de fichiers
+
+  # Préparation des options de Chrome
+  #   on utilise un template string pour passer les options
+  #   par exemple {prefs} sera remplacé par le dictionnaire des préférences
+  VAR  @{chrome_options}=
+  ...  --no-sandbox
+  ...  --disable-infobars
+  ...  --disable-extensions
+  ...  --disable-gpu
+  ...  --disable-dev-shm-usage
+  ...  --ignore-certificate-errors
+  ...  --ignore-ssl-errors=yes
+  ...  --window-size=1920,1080
+  ...  --disable-logging
+  ...  --log-level=3
+  ...  --lang=fr-FR
+
+  RETURN  ${chrome_options}
+
+Definir Options Pour firefox
+  [Documentation]        pour robot avec téléchargement de fichiers
+
+  # Préparation des options de Chrome
+  #   on utilise un template string pour passer les options
+  #   par exemple {prefs} sera remplacé par le dictionnaire des préférences
+  VAR  @{ff_options}=  ${None}
+
+  RETURN  ${ff_options}
 
 Obtenir Le Texte De L'Element
   [Documentation]    Obtenir le texte d'un élément ciblé
