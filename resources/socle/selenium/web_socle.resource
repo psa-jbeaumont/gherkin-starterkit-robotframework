@@ -18,18 +18,18 @@ Ouvrir Navigateur Sur
   [Documentation]    Ouvrir le navigateur sur l'URL ciblé
   [Arguments]  ${url}
 
-  ${options}=  Definir Options Pour Chrome
+  ${options}=  Definir Options Pour Edge
 
   SeleniumLibrary.Open Browser
   ...  url=${url}
   # ...  remote_url=http://127.0.0.1:4444/wd/hub
-  ...  browser=chrome
+  ...  browser=edge
   ...  options=${options}
-  SeleniumLibrary.Maximize Browser Window
+
   SeleniumLibrary.Set Selenium Timeout
   ...  value=${SETTINGS}[selenium_global_timeout]
 
-Definir Options Pour Chrome
+Definir Options Pour Edge
   [Documentation]        pour robot avec téléchargement de fichiers
   [Arguments]  ${dir_load}=${OUTPUTDIR}
 
@@ -37,7 +37,8 @@ Definir Options Pour Chrome
   #   on utilise un template string pour passer les options
   #   par exemple {prefs} sera remplacé par le dictionnaire des préférences
   ${arguments_template}=  Catenate  SEPARATOR=;
-  # ...  binary_location="{chrome_binary_path}"
+  ...  {headless_mode}
+  ...  add_argument("--window-size=1920,1080")
   ...  add_argument("--no-sandbox")
   ...  add_argument("--disable-infobars")
   ...  add_argument("--disable-extensions")
@@ -45,12 +46,10 @@ Definir Options Pour Chrome
   ...  add_argument("--disable-dev-shm-usage")
   ...  add_argument("--ignore-certificate-errors")
   ...  add_argument("--ignore-ssl-errors=yes")
-  ...  add_argument("--window-size=1920,1080")
   ...  add_argument("--disable-logging")
   ...  add_argument("--log-level=3")
   ...  add_experimental_option("prefs", {prefs})
   ...  add_argument("--lang={locale}")
-  ...  {headless_mode}
 
   # Gérer le mode headless
   #  HEADLESS est une variable d'exécution optionnelle du starter robot
@@ -72,7 +71,6 @@ Definir Options Pour Chrome
   ...  ${arguments_template}
   ...  locale=fr-FR
   ...  prefs=${prefs}
-  ...  chrome_binary_path=${SETTINGS}[chrome_binary_path]
   ...  headless_mode=${headless_mode}
 
   RETURN  ${chrome_options}

@@ -1,5 +1,5 @@
 SETTINGS:
-  chrome_binary_path: C:/robot/app/GoogleChromePortable/App/Chrome-bin/chrome.exe
+  browser_default: edge
   selenium_global_timeout: 30 seconds
   vault_keepass_database: dataset/secrets.kdbx
   vault_keepass_keyfile: oWUrq3ZiO3Wj.keyx
