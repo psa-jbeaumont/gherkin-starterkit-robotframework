@@ -87,9 +87,11 @@ L'Utilisateur Doit Être Connecté
   ...  nom=${a_user}[nom]
 
   # Obtenir le nom et le role affiché de l'utilisateur connecté dans un dictionnaire
-  ${logged_user}=  acme_service.Obtenir L'Utilisateur Connecté
+  ${logged_user}=  acme_service.Obtenir L'Utilisateur Connecté  
 
   # Le nom doit etre identique au nom de l'utilisateur courant
+  web_socle.Effectuer Une Capture D'Ecran
+  ...    locator=//div[contains(@class,'menu-w')]//div[contains(@class,'logged-user-w')]
   Collections.Dictionaries Should Be Equal  ${logged_user}  ${expected_user}
 
   Set Test Message  Success: L'utilisateur est bien connecté avec les bonnes informations ${logged_user}==${expected_user}.

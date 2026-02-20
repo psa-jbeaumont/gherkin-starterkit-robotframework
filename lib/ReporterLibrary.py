@@ -118,15 +118,19 @@ class ReporterLibrary(object):
 
         # Dictionnaire de mapping type -> méthode du logger
         switch = {
-            "": None,  # Pas de log pour les keywords sans type
+            "": _noop,  # Pas de log pour les keywords sans type
             "page":    self._logger.page,
             "service": self._logger.service,
             "socle":   self._logger.socle,
             "step":    self._logger.step
         }
 
-        # Appel via get() avec fallback (par exemple step)
-        switch.get(lib_type, _noop)(msg) if attrs['type'] == 'KEYWORD' and attrs['status'] == 'NOT SET' else None
+        # Appel via get() avec fallback (par exemple step).
+        # On vérifie que la clé est bien un keyword en démarrage avant d'appeler.
+        if attrs.get('type') == 'KEYWORD' and attrs.get('status') == 'NOT SET':
+            func = switch.get(lib_type, _noop)
+            if callable(func):
+                func(msg)
     
     def _end_keyword(self, name, attrs):
         """Log la fin d'un mot-clé."""

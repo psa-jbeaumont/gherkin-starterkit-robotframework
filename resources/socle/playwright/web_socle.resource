@@ -191,11 +191,9 @@ Effectuer Une Capture D'Ecran
   [Documentation]    Effectuer une capture d'écran de l'élément ciblé (par défaut le body)
   [Arguments]  ${locator}=//body
 
-  ${date}=  DateTime.Get Current Date
-  ...  result_format=%d%m%Y_%H%M%S
   Browser.Take Screenshot
   ...  selector=${locator}
-  ...  filename=${TEST_NAME}_${date}.png
+  ...  filename=${NONE}
 
 Fermer Tous Les Navigateurs
   [Documentation]    Fermer tous les navigateurs ouverts
